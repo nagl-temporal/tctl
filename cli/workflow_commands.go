@@ -63,8 +63,8 @@ import (
 	"go.temporal.io/server/service/history/workflow"
 )
 
-// RunWorkflow starts a new workflow execution and print workflow progress and result
-func RunWorkflow(c *cli.Context) error {
+// StartWorkflow starts a new workflow execution and optionally prints progress with --follow
+func StartWorkflow(c *cli.Context) error {
 	sdkClient, err := getSDKClient(c)
 	if err != nil {
 		return err
@@ -74,6 +74,7 @@ func RunWorkflow(c *cli.Context) error {
 	if err != nil {
 		return err
 	}
+	follow := c.Bool(output.FlagFollow)
 	taskQueue := c.String(FlagTaskQueue)
 	workflowType := c.String(FlagWorkflowType)
 	et := c.Int(FlagWorkflowExecutionTimeout)
@@ -154,7 +155,7 @@ func RunWorkflow(c *cli.Context) error {
 	}
 	output.PrintItems(c, data, opts)
 
-	return printWorkflowProgress(c, wid, resp.GetRunID(), true)
+	return printWorkflowProgress(c, wid, resp.GetRunID(), follow)
 }
 
 func unmarshalInputsFromCLI(c *cli.Context) ([]interface{}, error) {

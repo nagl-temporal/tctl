@@ -279,7 +279,7 @@ var flagsForShowWorkflow = []cli.Flag{
 	},
 }
 
-var flagsForRunWorkflow = []cli.Flag{
+var flagsForStartWorkflow = []cli.Flag{
 	&cli.StringFlag{
 		Name:    FlagWorkflowID,
 		Aliases: FlagWorkflowIDAlias,
@@ -368,6 +368,12 @@ var flagsForRunWorkflow = []cli.Flag{
 		Name: FlagSearchAttributeValue,
 		Usage: fmt.Sprintf("Optional search attributes value that can be be used in list query in JSON format. If there are multiple values, provide multiple %s flags. "+
 			"If value is array, use JSON array syntax: [\"a\",\"b\"] or [1,2].", FlagSearchAttributeValue),
+	},
+	&cli.BoolFlag{
+		Name:    output.FlagFollow,
+		Aliases: FlagFollowAlias,
+		Usage:   "Follow the progress of workflow execution",
+		Value:   false,
 	},
 }
 
